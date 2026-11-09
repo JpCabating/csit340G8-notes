@@ -42,8 +42,9 @@ function Notes() {
     setForm({ title: "", body: "" })
   }
 
-    function handleDelete(id) {
+    function handleDeleteNote(id) {
         setNotes(notes.filter((note) => note.id !== id))
+
     }
 
   return (
