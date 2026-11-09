@@ -2,7 +2,7 @@ import NoteCard from "./NoteCard"
 import { useState } from "react"
 
 function Notes() {
-    const [notes] = useState([    
+    const [notes,setNotes] = useState([    
         {
             id: 1,
             title: "Review map and filter",
@@ -25,6 +25,27 @@ function Notes() {
   })
 }
 
+    function handleSubmit(e){
+    e.preventDefault()
+
+    const trimmedBody = form.body.trim()
+    const trimmedTitle = form.title.trim()
+    if(trimmedBody === "" || trimmedTitle === "") {
+      return
+    }
+    const newNote = {
+      id: Date.now(),
+      title: form.title,
+      body: form.body,
+    }
+    setNotes([...notes, newNote])
+    setForm({ title: "", body: "" })
+  }
+
+    function handleDelete(id) {
+        setNotes(notes.filter((note) => note.id !== id))
+    }
+
   return (
     <div className="grid min-h-screen grid-cols-[420px_1fr]">
         <aside className="sticky top-0 flex h-screen flex-col gap-5 bg-white px-8 py-9 shadow-[0_2px_4px_0_rgba(0,0,0,0.2),0_25px_50px_0_rgba(0,0,0,0.1)]">
@@ -40,7 +61,7 @@ function Notes() {
           />
         </div>
 
-        <form className="grid gap-3">
+        <form className="grid gap-3" onSubmit={handleSubmit} >
           <p className="text-[13px] font-normal tracking-wide text-[#949494]">NEW NOTE</p>
           <input
             name="title"
@@ -78,6 +99,7 @@ function Notes() {
               <button
                 type="button"
                 className="absolute top-4 right-5 cursor-pointer text-[26px] leading-none text-[#949494] hover:text-[#c18585]"
+                onClick={() => handleDelete(note.id)}
               >
                 ×
               </button>
